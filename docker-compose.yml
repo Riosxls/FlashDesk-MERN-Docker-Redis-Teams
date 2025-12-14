@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: flashdesk_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  redis:
+    image: redis:latest
+    container_name: flashdesk_redis
+    ports:
+      - "6379:6379"
+
+  ticket-service:
+    build: ./ticket-service
+    container_name: flashdesk_api
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/flashdesk_db
+      - REDIS_HOST=redis
+
+  notification-service:
+    build: ./notification-service
+    container_name: flashdesk_notifier
+    ports:
+      - "3002:3002"
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+
+  frontend:
+    build: ./frontend
+    container_name: flashdesk_ui
+    ports:
+      - "3000:3000"
+    depends_on:
+      - ticket-service
+    # This allows the React app to run smoothly in Docker
+    stdin_open: true
+    tty: true
+
+volumes:
+  mongo-data:

@@ -1,0 +1,53 @@
+name: Pipeline FlashDesk CI/CD
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Instalar Deps (Ticket Service)
+        run: |
+          cd ticket-service
+          npm install
+
+      - name: Verificar Sintaxe (Ticket Service)
+        run: |
+          cd ticket-service
+          node -c server.js
+          echo "✅ Sintaxe do Ticket Service OK"
+
+      - name: Instalar Deps (Notification Service)
+        run: |
+          cd notification-service
+          npm install
+
+      - name: Verificar Sintaxe (Notification Service)
+        run: |
+          cd notification-service
+          node -c server.js
+          echo "✅ Sintaxe do Notification Service OK"
+
+      - name: Instalar Deps (Frontend)
+        run: |
+          cd frontend
+          npm install
+
+      - name: Build do Frontend (React)
+        run: |
+          cd frontend
+          npm run build
+          echo "✅ Build do Frontend Sucesso"
