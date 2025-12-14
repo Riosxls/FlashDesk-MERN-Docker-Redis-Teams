@@ -1,6 +1,6 @@
 # ⚡ FlashDesk - Sistema de Help Desk Distribuído
 
-![CI/CD](https://github.com/SEU_USUARIO/FlashDesk-MERN-Docker-Redis-Teams/actions/workflows/main.yml/badge.svg)
+![CI/CD](https://github.com/USUARIO/REPOSITORIO/actions/workflows/ARQUIVO_WORKFLOW.yml/badge.svg)
 ![Docker](https://img.shields.io/badge/Docker-Enabled-blue?logo=docker)
 ![Redis](https://img.shields.io/badge/Redis-Pub%2FSub-red?logo=redis)
 ![Stack](https://img.shields.io/badge/Stack-MERN-green)
